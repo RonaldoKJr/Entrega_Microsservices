@@ -1,0 +1,37 @@
+const Ticket = require('../models/ticket');
+
+class TicketRepository {
+    async findAll() {
+        return await Ticket.find({ active: true });
+    }
+    async findById(id) {
+        return await Ticket.findById(id);
+    }
+    async create(ticketData) {
+        const ticket = new Ticket(ticketData);
+        return await ticket.save();
+    }
+    async update(id, ticketData) {
+        return await Ticket.findByIdAndUpdate(
+            id,
+            ticketData,
+            { new: true, runValidators: true }
+        );
+    }
+    async delete(id) {
+        // Aqui desabilita "lógico" (campo active)
+        return await Ticket.findByIdAndUpdate(
+            id,
+            { active: false },
+            { new: true }
+        );
+    }
+    async findByTitle(title) {
+        return await Ticket.find({
+            title: title,
+            active: true
+        });
+    }
+}
+
+module.exports = new TicketRepository();

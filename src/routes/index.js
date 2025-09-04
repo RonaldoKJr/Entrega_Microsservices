@@ -1,0 +1,22 @@
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    res.json({
+        message: 'API de Tickets funcionando!',
+        version: '1.0.0',
+        endpoints: {
+            tickets: '/tickets',
+            health: '/health'
+        }
+    });
+});
+
+router.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString()
+    });
+});
+
+module.exports = router;
